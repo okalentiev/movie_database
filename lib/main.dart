@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Modules/List/ListWidget.dart';
+import 'package:movie_database/modules/list/view/movie_list_widget.dart';
 
 void main() => runApp(MovieDatabase());
 
@@ -12,7 +12,7 @@ class MovieDatabase extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: ListWidget(title: 'Movies'),
+      home: MovieList(title: 'Movies'),
     );
   }
 }
