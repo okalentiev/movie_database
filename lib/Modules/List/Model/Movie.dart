@@ -17,7 +17,13 @@ class Movie {
 
     final String overview;
 
-    Movie(this.movieId, this.title, this.posterPath, this.backdropPath, this.overview);
+    @JsonKey(name: "release_date")
+    final String releaseDate;
+
+    @JsonKey(name: "vote_average")
+    final double voteAverage;
+
+    Movie(this.movieId, this.title, this.posterPath, this.backdropPath, this.overview, this.releaseDate, this.voteAverage);
     
     factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
     Map<String, dynamic> toJson() => _$MovieToJson(this);

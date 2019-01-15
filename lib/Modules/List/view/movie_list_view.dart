@@ -26,6 +26,9 @@ class MovieListState extends State<MovieList> {
     super.initState();
     _scrollController.addListener(_scrollListener);
     _viewHandler.viewLoaded();
+    _viewHandler.pushWidget.listen((widget) {
+      _pushWidget(widget);
+    });
   }
 
   @override
@@ -64,7 +67,8 @@ class MovieListState extends State<MovieList> {
           itemBuilder: (BuildContext context, int index) => GridTile(
               child: InkResponse(
                 enableFeedback: true,
-                child: cellTile(snapshot.data[index]),
+                child: _cellTile(snapshot.data[index]),
+                onTap: () => _viewHandler.cellSelected(index),
               ),
             )),
     );
@@ -75,11 +79,16 @@ class MovieListState extends State<MovieList> {
       }
   }
 
-  Widget cellTile(MovieListItemViewModel viewModel) {
+  _pushWidget(StatefulWidget widget) {
+    Navigator.push( context, MaterialPageRoute(builder: (context) => widget),);
+  }
+
+  Widget _cellTile(MovieListItemViewModel viewModel) {
     return viewModel.imagePath != null ?
     FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: viewModel.imagePath, fit: BoxFit.cover, fadeInDuration: Duration(milliseconds: 200)) :
     Container(color: Theme.of(context).primaryColor,
       alignment: Alignment.center,
-      child: Text(viewModel.titleText, textAlign: TextAlign.center, style: TextStyle(color: Colors.white),),);
+      child: Text(viewModel.titleText, textAlign: TextAlign.center, style: TextStyle(color: Colors.white, decoration: 
+      TextDecoration.underline, decorationStyle: TextDecorationStyle.wavy, decorationColor: Colors.red),),);
   }
 }

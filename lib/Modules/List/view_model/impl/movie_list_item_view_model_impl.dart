@@ -6,6 +6,7 @@ class MovieListItemViewModelImpl implements MovieListItemViewModel {
 
   MovieListItemViewModelImpl(this._posterPath, this._title);
 
+  // TODO: Refactor to use streams
   String get imagePath {
     return _posterPath != null ? 'https://image.tmdb.org/t/p/w342$_posterPath' : _posterPath;
   }
