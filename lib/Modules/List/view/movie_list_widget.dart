@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movie_database/modules/list/model/movie.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:movie_database/modules/list/view_model/impl/movie_list_view_model_impl.dart';
+import 'package:movie_database/modules/list/view_model/movie_list_item_view_model.dart';
 import 'package:movie_database/modules/list/view_model/movie_list_view_model.dart';
 
 class MovieList extends StatefulWidget {
@@ -16,12 +17,14 @@ class MovieList extends StatefulWidget {
 
 class MovieListState extends State<MovieList> {
   final MovieListViewModel _viewHandler;
+  final ScrollController _scrollController = new ScrollController();
 
   MovieListState(this._viewHandler);
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_scrollListener);
     _viewHandler.viewLoaded();
   }
 
@@ -40,7 +43,7 @@ class MovieListState extends State<MovieList> {
       ),
       body: StreamBuilder(
         stream: _viewHandler.movieList,
-        builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
+        builder: (context, AsyncSnapshot<List<MovieListItemViewModel>> snapshot) {
           if (snapshot.hasData) {
             return buildList(snapshot);
           } else if (snapshot.hasError) {
@@ -52,17 +55,31 @@ class MovieListState extends State<MovieList> {
     );
   }
 
-  Widget buildList(AsyncSnapshot<List<Movie>> snapshot) => OrientationBuilder(
+  Widget buildList(AsyncSnapshot<List<MovieListItemViewModel>> snapshot) => OrientationBuilder(
       builder: (context, orientation) => GridView.builder(
+          controller: _scrollController,
           itemCount: snapshot.data.length,
           gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
               childAspectRatio: 2/3),
           itemBuilder: (BuildContext context, int index) => GridTile(
               child: InkResponse(
                 enableFeedback: true,
-                child: Image.network('https://image.tmdb.org/t/p/w342${snapshot.data[index].posterPath}',
-                  fit: BoxFit.cover,),
+                child: cellTile(snapshot.data[index]),
               ),
             )),
     );
+
+  _scrollListener() {
+      if (_scrollController.offset >= _scrollController.position.maxScrollExtent * 0.8) {
+        _viewHandler.reachingBottom();
+      }
+  }
+
+  Widget cellTile(MovieListItemViewModel viewModel) {
+    return viewModel.imagePath != null ?
+    FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: viewModel.imagePath, fit: BoxFit.cover, fadeInDuration: Duration(milliseconds: 200)) :
+    Container(color: Theme.of(context).primaryColor,
+      alignment: Alignment.center,
+      child: Text(viewModel.titleText, textAlign: TextAlign.center, style: TextStyle(color: Colors.white),),);
+  }
 }

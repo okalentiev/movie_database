@@ -10,7 +10,7 @@ class MovieDatabase extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primaryColor: Color(0xFF141414),
       ),
       home: MovieList(title: 'Movies'),
     );
