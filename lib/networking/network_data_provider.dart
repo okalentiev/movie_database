@@ -1,14 +1,17 @@
 import 'dart:async';
-import 'package:http/http.dart' show Client;
 import 'dart:convert';
-import 'package:movie_database/modules/list/model/movie.dart';
+
+import 'package:http/http.dart' show Client;
+import 'package:movie_database/modules/movies/list/model/movie.dart';
 import 'package:movie_database/networking/model/result.dart';
 import 'package:uri/uri.dart';
 
 class NetworkDataProvider {
-  Client client = Client();
+  final Client client;
   final _apiKey = 'da0c0e40fa23a956aec2d5aa48032b32';
   final _baseUrl = "http://api.themoviedb.org/3/movie";
+
+  NetworkDataProvider(this.client);
 
   Future<Result<Movie>> nowPlaying(int page) async {
     var template = UriTemplate("$_baseUrl/now_playing{?api_key,page}");

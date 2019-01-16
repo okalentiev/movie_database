@@ -1,5 +1,5 @@
-import 'package:movie_database/modules/detail/view_model/movie_detail_view_model.dart';
-import 'package:movie_database/modules/list/model/movie.dart';
+import 'package:movie_database/modules/movies/detail/view_model/movie_detail_view_model.dart';
+import 'package:movie_database/modules/movies/list/model/movie.dart';
 
 class MovieDetailViewModelImpl implements MovieDetailViewModel {
   final Movie _movie;

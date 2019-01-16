@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_database/modules/list/view/movie_list_view.dart';
+import 'package:movie_database/modules/movies/list/view/movie_list_view.dart';
 
 void main() => runApp(MovieDatabase());
 

@@ -1,26 +1,28 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:movie_database/modules/detail/view/movie_detail_view.dart';
-import 'package:movie_database/modules/detail/view_model/movie_detail_view_model_impl.dart';
-import 'package:movie_database/modules/list/view_model/impl/movie_list_item_view_model_impl.dart';
-import 'package:movie_database/modules/list/view_model/movie_list_item_view_model.dart';
-import 'package:movie_database/modules/list/view_model/movie_list_view_model.dart';
-import 'package:movie_database/modules/list/model/movie.dart';
-import 'package:movie_database/networking/network_data_provider.dart';
+import 'package:http/http.dart';
+import 'package:movie_database/modules/movies/detail/view/movie_detail_view.dart';
+import 'package:movie_database/modules/movies/detail/view_model/movie_detail_view_model_impl.dart';
+import 'package:movie_database/modules/movies/list/model/movie.dart';
+import 'package:movie_database/modules/movies/list/view_model/impl/movie_list_item_view_model_impl.dart';
+import 'package:movie_database/modules/movies/list/view_model/movie_list_item_view_model.dart';
+import 'package:movie_database/modules/movies/list/view_model/movie_list_view_model.dart';
 import 'package:movie_database/networking/model/result.dart';
+import 'package:movie_database/networking/network_data_provider.dart';
 
 class MovieListViewModelImpl implements MovieListViewModel {
-  var _movieProvider = NetworkDataProvider();
-  var _movieResultsController = StreamController<List<MovieListItemViewModel>>.broadcast();
-  var _pushController = StreamController<StatefulWidget>.broadcast();
-  var _loading = false;
+  final _movieProvider = NetworkDataProvider(Client());
+  final _movieResultsController = StreamController<List<MovieListItemViewModel>>.broadcast();
+  final _pushController = StreamController<Widget>.broadcast();
+
   Result<Movie> _moviesResponse;
+  var _loading = false;
   var _movies = List<Movie>();
   var _moviesViewModels = List<MovieListItemViewModel>();
 
   Stream<List<MovieListItemViewModel>> get movieList => _movieResultsController.stream;
-  Stream<StatefulWidget> get pushWidget => _pushController.stream;
+  Stream<Widget> get pushWidget => _pushController.stream;
 
   void viewLoaded() {
     _loadMovies();

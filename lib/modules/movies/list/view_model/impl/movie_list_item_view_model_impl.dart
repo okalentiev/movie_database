@@ -1,4 +1,4 @@
-import 'package:movie_database/modules/list/view_model/movie_list_item_view_model.dart';
+import 'package:movie_database/modules/movies/list/view_model/movie_list_item_view_model.dart';
 
 class MovieListItemViewModelImpl implements MovieListItemViewModel {
   final String _posterPath;
@@ -6,7 +6,6 @@ class MovieListItemViewModelImpl implements MovieListItemViewModel {
 
   MovieListItemViewModelImpl(this._posterPath, this._title);
 
-  // TODO: Refactor to use streams
   String get imagePath {
     return _posterPath != null ? 'https://image.tmdb.org/t/p/w342$_posterPath' : _posterPath;
   }
