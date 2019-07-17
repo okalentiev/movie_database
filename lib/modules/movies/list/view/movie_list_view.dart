@@ -46,6 +46,7 @@ class MovieListState extends State<MovieList> {
         title: Text(
           widget.title,
           style: TextStyle(fontSize: 26.0),
+          key: Key('list_title'),
         ),
         centerTitle: false,
       ),
@@ -112,6 +113,7 @@ class MovieListWidget extends StatelessWidget {
                   child: MovieListCellTile(
                     snapshot.data[index],
                     context: context,
+                    key: Key('movie_cell_list_tile' + index.toString()),
                   ),
                   onTap: () => _viewHandler.cellSelected(index),
                 ),

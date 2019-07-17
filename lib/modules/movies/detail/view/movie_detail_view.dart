@@ -38,6 +38,7 @@ class MovieDetail extends StatelessWidget {
                             fontSize: 25.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
+                        key: Key('movie_detail_item_title'),
                       ),
                       Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
                       Row(
